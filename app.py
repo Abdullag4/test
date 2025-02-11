@@ -11,18 +11,20 @@ REPO_NAME = "test"
 DB_FILE_PATH = "erp_system.db"  # Path to the .db file in the GitHub repo
 
 # GitHub API URL
-GITHUB_API_URL = f"https://api.github.com/repos/{Abdullag4}/{test}/contents/{DB_FILE_PATH}"
+GITHUB_API_URL = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{DB_FILE_PATH}"
 
 # Download the .db file from GitHub
 def download_db_file():
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
     response = requests.get(GITHUB_API_URL, headers=headers)
+    
     if response.status_code == 200:
         file_content = base64.b64decode(response.json()["content"])
         with open(DB_FILE_PATH, "wb") as db_file:
             db_file.write(file_content)
     else:
-        st.error("Failed to download the database file from GitHub.")
+        st.error(f"Failed to download the database file from GitHub. Status code: {response.status_code}")
+        st.write(response.json())  # Display response for debugging
         st.stop()
 
 # Upload the updated .db file to GitHub
@@ -30,6 +32,7 @@ def upload_db_file():
     headers = {"Authorization": f"token {GITHUB_TOKEN}"}
     with open(DB_FILE_PATH, "rb") as db_file:
         file_content = base64.b64encode(db_file.read()).decode("utf-8")
+
     # Get the current file's SHA to update it
     response = requests.get(GITHUB_API_URL, headers=headers)
     if response.status_code == 200:
@@ -40,12 +43,15 @@ def upload_db_file():
             "sha": sha,
         }
         response = requests.put(GITHUB_API_URL, headers=headers, json=data)
+        
         if response.status_code == 200:
             st.success("Database updated successfully on GitHub.")
         else:
-            st.error("Failed to upload the updated database file to GitHub.")
+            st.error(f"Failed to upload the updated database file to GitHub. Status code: {response.status_code}")
+            st.write(response.json())  # Display response for debugging
     else:
-        st.error("Failed to fetch the file's SHA from GitHub.")
+        st.error(f"Failed to fetch the file's SHA from GitHub. Status code: {response.status_code}")
+        st.write(response.json())  # Display response for debugging
 
 # Connect to the database
 def get_connection():
