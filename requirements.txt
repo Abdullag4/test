@@ -3,3 +3,4 @@ streamlit-webrtc
 pyzbar
 opencv-python-headless
 pandas
+requests
