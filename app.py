@@ -11,7 +11,7 @@ REPO_NAME = "test"
 DB_FILE_PATH = "erp_system.db"  # Path to the .db file in the GitHub repo
 
 # GitHub API URL
-GITHUB_API_URL = f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{DB_FILE_PATH}"
+GITHUB_API_URL = f"https://api.github.com/repos/{Abdullag4}/{test}/contents/{DB_FILE_PATH}"
 
 # Download the .db file from GitHub
 def download_db_file():
