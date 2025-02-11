@@ -5,7 +5,7 @@ import base64
 import os
 
 # GitHub repo info and access token
-GITHUB_TOKEN = st.secrets["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"]  # Store your token in Streamlit secrets
+GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
 REPO_OWNER = "Abdullag4"
 REPO_NAME = "test"
 DB_FILE_PATH = "erp_system.db"  # Path to the .db file in the GitHub repo
